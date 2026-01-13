@@ -123,7 +123,7 @@ class WAFEngine:
             self.alert_count += 1
             
             # Decide whether to block or allow
-            if alert["action"] == "BLOCK":
+            if alert.get("action", "BLOCK") == "BLOCK":
                 return self._create_response(
                     allow=False,
                     reason=f"THREAT_DETECTED: {detection_result['threat_type']}",

@@ -3,7 +3,7 @@ import logging.handlers
 import os
 from datetime import datetime
 
-class WAFLogger:
+class EventLogger:
     """Custom logger for WAF system."""
     
     def __init__(self, log_dir='logs', log_file='waf.log'):

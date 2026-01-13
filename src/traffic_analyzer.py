@@ -57,3 +57,32 @@ class TrafficAnalyzer:
             self.protocol_stats.clear()
             self.method_stats.clear()
             self.status_stats.clear()
+
+
+    
+    def analyze(self, ip_address, request):
+        """Analyze request for traffic anomalies and rate limiting."""
+        with self.lock:
+            # Record the request
+            self.record_request(
+                source_ip=ip_address,
+                request_size=len(str(request)),
+                method=request.get('method', 'GET'),
+                status_code=200,
+                protocol='HTTP'
+            )
+            
+            # Check for high volume
+            request_count = self.traffic_stats[ip_address]['requests']
+            if request_count > 100:  # High volume threshold
+                return {
+                    'blocked': True,
+                    'reason': 'HIGH_VOLUME_DETECTED',
+                    'requests_count': request_count
+                }
+            
+            return {
+                'blocked': False,
+                'reason': 'ALLOWED',
+                'requests_count': request_count
+            }

@@ -205,3 +205,73 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# SentinelShield specific
+/venv/
+/env/
+/.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs & Output
+/logs/
+*.log
+*.log.*
+stdout.txt
+stderr.txt
+
+# Configuration & Secrets
+.env
+.env.local
+.env*.local
+config/secrets.json
+
+# Database & Cache
+*.db
+*.sqlite
+*.sqlite3
+/cache/
+
+# Test Coverage
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+
+# Distribution / Packaging
+dist/
+build/
+*.egg-info/
+*.egg
+*.whl
+
+# OS
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# Temporary files
+.tmp/
+/tmp/
+*.temp
+*.tmp
+
+# Node (if using npm)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Generated files
+/src/__pycache__/
+/tests/__pycache__/

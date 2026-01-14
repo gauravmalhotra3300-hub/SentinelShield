@@ -155,3 +155,10 @@ Gaurav Malhotra (gaurav.malhotra3300@gmail.com)
 ---
 
 **Note**: This is an educational project designed for learning cybersecurity concepts. It is not intended for production use.
+
+
+## Project Metrics Dashboard
+
+View the comprehensive project metrics and completion dashboard:
+
+- **[Project Metrics Dashboard](./PROJECT_METRICS_DASHBOARD.html)** - Interactive dashboard showing project status, metrics, test results, and deployment information.

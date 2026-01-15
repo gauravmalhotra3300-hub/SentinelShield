@@ -170,20 +170,19 @@ waf = WAFEngine()
 @app.route('/test', methods=['GET', 'POST'])
 def test_endpoint():
     """Main testing endpoint"""
-     try:
-        decision = waf.process_request(request)
-        
-        if decision["allow"]:
-            return jsonify({"status": "allowed", "message": "Request passed WAF inspection"}), 200
-        else:
-            return jsonify({
-                "status": "blocked",
-                "reason": decision["reason"],
-                "timestamp": decision["timestamp"]
-            }), 403
-             except Exception as e:
-                             logger.error(f"Error in /test endpoint: {str(e)}")
-                             return jsonify({"error": "Request processing error", "details": str(e)}), 500
+        try:
+            decision = waf.process_request(request)
+            if decision["allow"]:
+                return jsonify({"status": "allowed", "message": "Request passed WAF inspection"}), 200
+            else:
+                return jsonify({
+                    "status": "blocked",
+                    "reason": decision["reason"],
+                    "timestamp": decision["timestamp"]
+                }), 403
+        except Exception as e:
+            logger.error(f"Error in /test endpoint: {str(e)}")
+            return jsonify({"error": "Request processing error", "details": str(e)}), 500
 
 @app.route('/stats', methods=['GET'])
 def statistics():

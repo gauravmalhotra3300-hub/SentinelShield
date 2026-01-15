@@ -1,0 +1,110 @@
+name: SentinelShield CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  release:
+    types: [published]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Run Comprehensive Security Tests
+      run: |
+        pytest src/tests/test_comprehensive_security.py -v
+    
+    - name: Run Attack Payload Tests
+      run: |
+        pytest src/tests/test_attack_payloads.py -v
+    
+    - name: Run Normal Request Tests
+      run: |
+        pytest src/tests/test_normal_requests.py -v
+    
+    - name: Run All Tests with Coverage
+      run: |
+        pip install coverage
+        pytest src/tests/ --cov=src --cov-report=html
+    
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: coverage-report-py${{ matrix.python-version }}
+        path: htmlcov/
+    
+    - name: Security Scan
+      run: |
+        pip install bandit
+        bandit -r src/ -f json -o bandit-report.json || true
+    
+    - name: Upload Security Report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: security-report-py${{ matrix.python-version }}
+        path: bandit-report.json
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build Project
+      run: |
+        echo "Building SentinelShield v1.0.0"
+        ls -la
+        echo "Build completed successfully"
+    
+    - name: Create Build Artifact
+      run: |
+        mkdir -p build
+        cp -r src/ build/
+        cp README.md build/
+        cp QUICK_START_GUIDE.md build/ || true
+    
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: sentinelshield-build
+        path: build/
+
+  notify:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Report Workflow Status
+      run: |
+        if [ "${{ needs.test.result }}" == "success" ] && [ "${{ needs.build.result }}" == "success" ]; then
+          echo "✓ SentinelShield CI/CD Pipeline Completed Successfully"
+          echo "✓ All tests passed"
+          echo "✓ Build artifacts created"
+        else
+          echo "✗ SentinelShield CI/CD Pipeline Failed"
+          exit 1
+        fi

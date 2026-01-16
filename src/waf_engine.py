@@ -173,7 +173,7 @@ def test_endpoint():
     try:
     decision = waf.process_request(request)
     if decision["allow"]:
-    return jsonify({"status": "allowed", "message": "Request passed WAF inspection"}), 200
+        return jsonify({"status": "allowed", "message": "Request passed WAF inspection"}), 200
     else:
     return jsonify({
     "status": "blocked",

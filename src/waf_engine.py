@@ -175,11 +175,11 @@ def test_endpoint():
     if decision["allow"]:
         return jsonify({"status": "allowed", "message": "Request passed WAF inspection"}), 200
     else:
-    return jsonify({
-    "status": "blocked",
-    "reason": decision["reason"],
-    "timestamp": decision["timestamp"]
-    }), 403
+        return jsonify({
+        "status": "blocked",
+        "reason": decision["reason"],
+        "timestamp": decision["timestamp"]
+        }), 403
     except Exception as e:
     logger.error(f"Error in /test endpoint: {str(e)}")
     return jsonify({"error": "Request processing error", "details": str(e)}), 500

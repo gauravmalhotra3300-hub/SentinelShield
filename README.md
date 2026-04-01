@@ -2,17 +2,21 @@
 
 ## Project Overview
 
-SentinelShield is an advanced, practical implementation of a Web Application Firewall (WAF) system designed to educate students about modern intrusion detection, threat analysis, and web protection mechanisms. This project simulates real-world cybersecurity operations by detecting malicious requests, analyzing traffic patterns, and generating actionable alerts.
+SentinelShield is a defensive cybersecurity project that demonstrates core Web Application Firewall (WAF) concepts in a controlled lab environment. It is designed for security learning, detection engineering practice, and request inspection testing with a focus on visibility, rule-based analysis, rate limiting, and alert generation.
 
-## System Objectives
+This repository is intended for authorized defensive security research, training, and lab validation. It focuses on detecting suspicious HTTP activity, classifying common attack patterns, and generating structured alerts for analysis.
 
-The project aims to develop a comprehensive understanding of:
+## Scope & Purpose
 
-1. **HTTP Request Inspection** - Analyzing incoming requests for malicious content
-2. **Attack Signature Detection** - Identifying common web attacks (SQL Injection, XSS, LFI, Directory Traversal, Command Injection)
-3. **Behavior-Based Monitoring** - Detecting rate-limit violations and automated scanning
-4. **Alert Generation & Decision Logic** - Creating real-time alerts based on threat detection
-5. **Logging & Analysis** - Comprehensive logging and dashboard visualization
+SentinelShield provides a practical, hands-on implementation of WAF concepts including:
+
+- **HTTP Request Inspection** – Analyzing incoming requests for malicious content
+- **Attack Signature Detection** – Identifying common web attacks (SQL Injection, XSS, LFI, Directory Traversal, Command Injection)
+- **Behavior-Based Monitoring** – Detecting rate-limit violations and automated scanning
+- **Alert Generation & Decision Logic** – Creating real-time alerts based on threat detection
+- **Logging & Analysis** – Comprehensive logging and dashboard visualization
+
+This project is designed as a learning artifact for cybersecurity professionals and students studying defensive security, detection engineering, and SOC operations.
 
 ## Core Components
 
@@ -34,7 +38,7 @@ The project aims to develop a comprehensive understanding of:
 ### 4. Logging & Alert System
 - Real-time event logging
 - JSON-formatted logs for analysis
-- Alert severity classification
+- Alert severity classification (Low, Medium, High, Critical)
 
 ### 5. Dashboard & Reporting
 - Summary statistics and visualizations
@@ -43,12 +47,14 @@ The project aims to develop a comprehensive understanding of:
 
 ## Attack Types Detected
 
-- **SQL Injection**: Queries attempting database manipulation
-- **Cross-Site Scripting (XSS)**: JavaScript injection attempts
-- **Local File Inclusion (LFI)**: File traversal attacks
-- **Directory Traversal**: Path manipulation attacks
-- **Command Injection**: OS command execution attempts
-- **Rate Limiting Violations**: Brute-force and DDoS attempts
+| Attack Type | Description |
+|-------------|-------------|
+| SQL Injection | Queries attempting database manipulation |
+| Cross-Site Scripting (XSS) | JavaScript injection attempts |
+| Local File Inclusion (LFI) | File traversal attacks |
+| Directory Traversal | Path manipulation attacks |
+| Command Injection | OS command execution attempts |
+| Rate Limiting Violations | Brute-force and DDoS attempts |
 
 ## Project Structure
 
@@ -76,6 +82,8 @@ SentinelShield/
 │   ├── ARCHITECTURE.md        # System design
 │   ├── INSTALLATION.md        # Setup guide
 │   └── USAGE.md               # Operation guide
+├── .github/
+│   └── workflows/             # CI/CD pipelines
 └── README.md
 ```
 
@@ -101,64 +109,77 @@ pip install -r requirements.txt
 python src/waf_engine.py
 ```
 
-The WAF will start listening on localhost:5000 and begin analyzing incoming requests.
+The WAF will start listening on `localhost:5000` and begin analyzing incoming requests.
 
-## Practical Work Deliverables
+## Safe Use & Limitations
 
-Students are expected to complete:
+**Intended Use:**
+- Educational and training environments only
+- Authorized lab and research settings
+- Defensive security skill development
+- Portfolio demonstration for cybersecurity roles
 
-1. **Practical Journal** containing:
-   - Purpose and objectives
-   - Tools and methodology
-   - Step-by-step execution with screenshots
-   - Observations and log analysis
+**Not Intended For:**
+- Production deployment without thorough review
+- Offensive security operations
+- Real network traffic without explicit authorization
 
-2. **Final Report** including:
-   - Total attacks performed and detected
-   - Detection accuracy metrics
-   - False positive and false negative analysis
-   - Recommended rule improvements
+**Known Limitations:**
+- Rule-based detection only; no ML/AI anomaly detection
+- HTTP traffic only; does not cover HTTPS decryption
+- Single-node deployment; not horizontally scalable
+- Detection rules require manual updates for new attack patterns
 
-3. **Artifacts**:
-   - System architecture diagrams
-   - Dashboard screenshots
-   - Comprehensive test logs
-   - Remediation recommendations
+## Detection Coverage
 
-## Learning Outcomes
+| Category | Coverage Status |
+|----------|----------------|
+| SQL Injection | Full coverage (signature-based) |
+| XSS | Full coverage (signature-based) |
+| LFI / Directory Traversal | Full coverage |
+| Command Injection | Full coverage |
+| Rate Limiting / Brute Force | Configurable thresholds |
+| Zero-Day / Unknown Attacks | Limited (pattern-based only) |
 
-Upon completion, students will understand:
-- How Web Application Firewalls (WAF) protect applications
-- Signature-based threat detection principles
-- Behavior-based anomaly detection
-- Real-world incident response workflows
-- Security logging and monitoring best practices
-- Cybersecurity operations and SOC functions
+## Testing & Validation
+
+The project includes a comprehensive test suite:
+
+- `test_normal_requests.py` – Validates benign traffic passes through
+- `test_attack_payloads.py` – Validates attack detection accuracy
+- `DETECTION_ACCURACY_REPORT.md` – Full metrics and results
+- `KALI_LINUX_TESTING_GUIDE.md` – Lab testing instructions
 
 ## Documentation
 
 Detailed documentation is available in:
-- `docs/ARCHITECTURE.md` - System design and workflow
-- `docs/INSTALLATION.md` - Step-by-step setup instructions
-- `docs/USAGE.md` - Operational guidelines
 
-## Author
-
-Gaurav Malhotra (gaurav.malhotra3300@gmail.com)
-
-## Status
-
-**Project Status**: In Development  
-**Last Updated**: January 13, 2026  
-**Version**: 1.0.0 (Development)
-
----
-
-**Note**: This is an educational project designed for learning cybersecurity concepts. It is not intended for production use.
-
+- `docs/ARCHITECTURE.md` – System design and workflow
+- `docs/INSTALLATION.md` – Step-by-step setup instructions
+- `docs/USAGE.md` – Operational guidelines
+- `PRACTICAL_JOURNAL.md` – Testing observations and methodology
 
 ## Project Metrics Dashboard
 
 View the comprehensive project metrics and completion dashboard:
 
-- **[Project Metrics Dashboard](./PROJECT_METRICS_DASHBOARD.html)** - Interactive dashboard showing project status, metrics, test results, and deployment information.
+- **[Project Metrics Dashboard](https://github.com/gauravmalhotra3300-hub/SentinelShield/blob/main/PROJECT_METRICS_DASHBOARD.html)** – Interactive dashboard showing project status, metrics, test results, and deployment information.
+
+## License & Compliance
+
+This project is released for educational and defensive research purposes. Users must comply with all applicable laws and organizational policies when deploying or testing this software.
+
+## Author
+
+**Gaurav Malhotra**  
+Email: gaurav.malhotra3300@gmail.com  
+Location: Delhi NCR, India
+
+## Project Status
+
+**Status**: Stable educational release  
+**Version**: 1.0.0  
+**Last Updated**: April 1, 2026  
+**Latest Release**: [v1.0.0](https://github.com/gauravmalhotra3300-hub/SentinelShield/releases/tag/v1.0.0)
+
+This repository is maintained as a defensive security learning project and portfolio artifact.
